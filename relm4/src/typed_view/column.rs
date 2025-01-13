@@ -31,6 +31,12 @@ pub trait RelmColumn: Any {
     /// Whether to enable automatic expanding for this column
     const ENABLE_EXPAND: bool = false;
 
+    /// Returns the shown title for the column. By default shows [`RelmColumn::COLUMN_NAME`]. Useful for translations
+    #[must_use]
+    fn header_title() -> String {
+        String::from(Self::COLUMN_NAME)
+    }
+
     /// Construct the widgets.
     fn setup(list_item: &gtk::ListItem) -> (Self::Root, Self::Widgets);
 
@@ -247,7 +253,7 @@ where
 
         let sort_fn = C::sort_fn();
 
-        let c = gtk::ColumnViewColumn::new(Some(C::COLUMN_NAME), Some(factory));
+        let c = gtk::ColumnViewColumn::new(Some(&C::header_title()), Some(factory));
         c.set_resizable(C::ENABLE_RESIZE);
         c.set_expand(C::ENABLE_EXPAND);
 
