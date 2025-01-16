@@ -41,6 +41,8 @@ pub struct OpenButton {
 pub struct OpenButtonSettings {
     /// Settings for the open file dialog.
     pub dialog_settings: OpenDialogSettings,
+    /// Icon of the open button.
+    pub icon: Option<&'static str>,
     /// Text of the open button.
     pub text: &'static str,
     /// Path to a file where recent files should be stored.
@@ -71,8 +73,21 @@ impl SimpleComponent for OpenButton {
         gtk::Box {
             add_css_class: relm4::css::LINKED,
             gtk::Button {
-                set_label: model.config.text,
                 connect_clicked => OpenButtonMsg::ShowDialog,
+
+                gtk::Box {
+                    set_orientation: gtk::Orientation::Horizontal,
+                    set_spacing: 5,
+
+                    gtk::Image {
+                        set_visible: model.config.icon.is_some(),
+                        set_icon_name: model.config.icon,
+                    },
+
+                    gtk::Label {
+                        set_label: model.config.text,
+                    }
+                }
             },
             gtk::MenuButton {
                 #[watch]

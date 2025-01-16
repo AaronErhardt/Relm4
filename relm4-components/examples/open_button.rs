@@ -50,6 +50,7 @@ impl SimpleComponent for App {
         let open_button = OpenButton::builder()
             .launch(OpenButtonSettings {
                 dialog_settings: OpenDialogSettings::default(),
+                icon: None,
                 text: "Open file",
                 recently_opened_files: Some(".recent_files"),
                 max_recent_files: 10,
